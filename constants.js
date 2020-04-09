@@ -1,0 +1,33 @@
+const ORDER_STATUS = {
+    OPEN: "OPEN",
+    PARTIAL: "PARTIAL",
+    COMPLETE: "COMPLETE",
+    REJECTED: "REJECTED",
+    CANCELLED: "CANCELLED",
+    EXPIRED: "EXPIRED"
+};
+
+const TRANSACTION_TYPE = {
+    BUY: "BUY",
+    SELL: "SELL"
+};
+
+const ORDER_TYPE = {
+    MARKET: "MARKET",
+    LIMIT: "LIMIT",
+    STOP: "STOP",
+    STOP_LIMIT: "STOP_LIMIT"
+};
+
+const ORDER_DURATION = {
+    DAY: "DAY",
+    GTC: "GTC",
+    IOC: "IOC"
+};
+
+module.exports = {
+    ORDER_STATUS,
+    TRANSACTION_TYPE,
+    ORDER_TYPE,
+    ORDER_DURATION
+};

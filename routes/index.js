@@ -2,12 +2,15 @@ const router = require("express").Router();
 const auth = require("./api/auth");
 const login = require("./api/login");
 const register = require("./api/register");
-// const orders = require("./api/orders");
+const orders = require("./api/orders");
+const assets = require("./api/assets");
+const trades = require("./api/trades");
+
 router.use("/api/auth", auth);
 router.use("/api/login", login);
 router.use("/api/register", register);
-// router.use("/api/users", users);
-
-// router.use("/api/orders", orders);
-
+router.use("/api/users", users);
+router.use("/api/orders", orders);
+router.use("/api/assets", assets);
+router.use("/api/trades", trades);
 module.exports = router;
