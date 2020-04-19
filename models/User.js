@@ -4,29 +4,29 @@ const userSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true
+            required: true,
         },
         email: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
         },
         password: {
             type: String,
-            required: true
+            required: true,
         },
         currency: {
             type: String,
             required: true,
-            default: "USD"
+            default: "USD",
         },
-        cash: {
+        balance: {
             type: Number,
             required: true,
-            default: 100000
-        }
+            default: 100000,
+        },
     },
-    { timestamps }
+    { timestamps: true }
 );
 
 const User = mongoose.model("user", userSchema);

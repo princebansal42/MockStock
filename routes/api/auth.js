@@ -8,7 +8,7 @@ const config = require("config");
 const bcrypt = require("bcryptjs");
 
 // @route   GET api/auth
-// @desc    Test route
+// @desc    Get details of authenticated user
 // @access  Public
 router.get("/", auth, async (req, res) => {
     try {
@@ -27,9 +27,7 @@ router.post(
     "/",
     [
         check("email", "Please include a valid email").isEmail(),
-        check("password", "Password is Required")
-            .not()
-            .isEmpty()
+        check("password", "Password is Required").not().isEmpty(),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -38,6 +36,7 @@ router.post(
         }
 
         const { email, password } = req.body;
+        console.log("Email: " + email + " password: " + password);
         try {
             let user = await User.findOne({ email });
             if (!user) {
@@ -55,12 +54,12 @@ router.post(
             }
             const payload = {
                 user: {
-                    id: user.id
-                }
+                    id: user.id,
+                },
             };
             jwt.sign(
                 payload,
-                config.get("jwtSecret"),
+                config.get("jwtSecretKey"),
                 { expiresIn: 360000 },
                 (err, token) => {
                     if (err) throw err;

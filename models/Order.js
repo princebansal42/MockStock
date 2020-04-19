@@ -53,7 +53,7 @@ const orderSchema = new mongoose.Schema(
             default: ORDER_DURATION.DAY,
         },
     },
-    { timestamps }
+    { timestamps: true }
 );
 
 const Order = mongoose.model("order", orderSchema);

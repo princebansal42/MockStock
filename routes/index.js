@@ -2,6 +2,7 @@ const router = require("express").Router();
 const auth = require("./api/auth");
 const login = require("./api/login");
 const register = require("./api/register");
+const users = require("./api/users");
 const orders = require("./api/orders");
 const assets = require("./api/assets");
 const trades = require("./api/trades");

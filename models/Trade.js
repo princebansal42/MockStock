@@ -38,14 +38,8 @@ const tradeSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        bid_price: {
-            type: Number,
-        },
-        ask_price: {
-            type: Number,
-        },
     },
-    { timestamps }
+    { timestamps: true }
 );
 
 const Trade = mongoose.model("trade", tradeSchema);
