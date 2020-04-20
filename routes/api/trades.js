@@ -21,7 +21,7 @@ router.get("/", auth, async (req, res) => {
 // @desc    Get an trade By Id
 // @access  Public
 
-router.get("/:id", auth, async (req, res) => {
+router.get("/id/:id", auth, async (req, res) => {
     try {
         const trade = await Trade.findById(req.params.id);
 
@@ -44,7 +44,7 @@ router.get("/:id", auth, async (req, res) => {
 // @desc    Get an trades By Symbol
 // @access  Public
 
-router.get("/:symbol", async (req, res) => {
+router.get("/symbol/:symbol", async (req, res) => {
     try {
         const trades = await Trade.find({
             asset_symbol: req.params.id.toUpperCase(),

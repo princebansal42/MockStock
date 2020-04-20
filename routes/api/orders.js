@@ -26,35 +26,35 @@ router.get("/", auth, async (req, res) => {
 // @route   POST api/orders
 // @desc    Place an order
 // @access  Private
-router.get("/", auth, async (req, res) => {
+router.post("/", auth, async (req, res) => {
     try {
         const {
             asset_symbol,
-            order_type,
             transaction_type,
             quantity,
             limit_price,
             stop_price,
         } = req.body;
-
+        let { order_type } = req.body;
+        order_type = order_type.toUpperCase();
         let order = {
             client_id: req.user.id,
             asset_symbol,
-            order_type: ORDER_TYPE[order_type.toUpperCase()],
+            order_type: ORDER_TYPE[order_type],
             transaction_type: TRANSACTION_TYPE[transaction_type.toUpperCase()],
             quantity,
         };
-        if (order_type.toUpperCase() === ORDER_TYPE.LIMIT) {
+        if (order_type === ORDER_TYPE.LIMIT) {
             order.limit_price = limit_price;
         }
-        if (order_type.toUpperCase() === ORDER_TYPE.STOP) {
+        if (order_type === ORDER_TYPE.STOP) {
             order.stop_price = stop_price;
         }
-        if (order_type.toUpperCase() === ORDER_TYPE.STOP_LIMIT) {
+        if (order_type === ORDER_TYPE.STOP_LIMIT) {
             order.stop_price = stop_price;
             order.limit_price = limit_price;
         }
-
+        order = new Order(order);
         order = await order.save();
         return res.json(order);
     } catch (err) {
@@ -67,7 +67,7 @@ router.get("/", auth, async (req, res) => {
 // @desc    Get an order by id
 // @access  Private
 
-router.get("/:id", auth, async (req, res) => {
+router.get("/id/:id", auth, async (req, res) => {
     try {
         const order = await Order.findOne({
             _id: req.params.id,
@@ -76,7 +76,7 @@ router.get("/:id", auth, async (req, res) => {
 
         if (!order) return res.status(404).json({ msg: "Order not found" });
 
-        res.json(order);
+        return res.json(order);
     } catch (err) {
         console.error(err.message);
         if (err.kind === "ObjectId") {
@@ -90,14 +90,14 @@ router.get("/:id", auth, async (req, res) => {
 // @desc    Get orders by Symbol
 // @access  Private
 
-router.get("/:symbol", auth, async (req, res) => {
+router.get("/symbol/:symbol", auth, async (req, res) => {
     try {
         const orders = await Order.find({
             client_id: req.user.id,
-            asset_symbol: req.params.id.toUpperCase(),
+            asset_symbol: req.params.symbol.toUpperCase(),
         });
 
-        res.json(order);
+        return res.json(orders);
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
@@ -112,10 +112,10 @@ router.delete("/:id", auth, async (req, res) => {
     try {
         await Order.findOneAndRemove({ _id: req.params.id });
 
-        res.json({ msg: "Order Deleted" });
+        return res.json({ msg: "Order Deleted" });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("Server Error");
+        return res.status(500).send("Server Error");
     }
 });
 

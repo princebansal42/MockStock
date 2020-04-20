@@ -7,6 +7,7 @@ const assetSchema = new mongoose.Schema(
             required: true,
             unique: true,
             set: (s) => s.toUpperCase(),
+            get: (s) => s.toUpperCase(),
         },
         tradable: {
             type: Boolean,

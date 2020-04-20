@@ -17,11 +17,29 @@ router.get("/", async (req, res) => {
     }
 });
 
+// @route   POST api/assets
+// @desc    Enter an asset
+// @access  Private
+router.post("/", auth, async (req, res) => {
+    try {
+        const { symbol, ltp } = req.body;
+        console.log(symbol + " " + ltp);
+        let asset = new Asset({
+            symbol,
+            ltp,
+        });
+        asset = await asset.save();
+        return res.json(asset);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send("Server Error");
+    }
+});
 // @route   GET api/assets/:id
 // @desc    Get an asset By Id
 // @access  Public
 
-router.get("/:id", async (req, res) => {
+router.get("/id/:id", async (req, res) => {
     try {
         const asset = await Asset.findById(req.params.id);
 
@@ -41,10 +59,10 @@ router.get("/:id", async (req, res) => {
 // @desc    Get an asset By Symbol
 // @access  Public
 
-router.get("/:symbol", async (req, res) => {
+router.get("/symbol/:symbol", async (req, res) => {
     try {
         const asset = await Asset.find({
-            symbol: req.params.id.toUpperCase()
+            symbol: req.params.symbol.toUpperCase(),
         });
 
         if (!asset) return res.status(404).json({ msg: "Asset not found" });
@@ -60,7 +78,7 @@ router.get("/:symbol", async (req, res) => {
 // @desc    Delete an asset
 // @access  Private
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/id/:id", auth, async (req, res) => {
     try {
         await Asset.findOneAndRemove({ _id: req.params.id });
 
@@ -75,9 +93,11 @@ router.delete("/:id", auth, async (req, res) => {
 // @desc    Delete an asset
 // @access  Private
 
-router.delete("/:symbol", auth, async (req, res) => {
+router.delete("/symbol/:symbol", auth, async (req, res) => {
     try {
-        await Asset.findOneAndRemove({ symbol: req.params.symbol });
+        await Asset.findOneAndRemove({
+            symbol: req.params.symbol.toUpperCase(),
+        });
 
         res.json({ msg: "Asset Deleted" });
     } catch (err) {
