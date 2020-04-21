@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://prince:prince12345@mockstock-5oy5g.mongodb.net/test?retryWrites=true&w=majority",
-    "jwtSecretKey": "It's a Secret"
-}
