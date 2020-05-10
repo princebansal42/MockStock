@@ -1,33 +1,33 @@
 const ORDER_STATUS = {
     OPEN: "OPEN",
     PARTIAL: "PARTIAL",
-    COMPLETE: "COMPLETE",
+    COMPLETED: "COMPLETED",
     REJECTED: "REJECTED",
     CANCELLED: "CANCELLED",
-    EXPIRED: "EXPIRED"
+    EXPIRED: "EXPIRED",
 };
 
-const TRANSACTION_TYPE = {
+const ACTION = {
     BUY: "BUY",
-    SELL: "SELL"
+    SELL: "SELL",
 };
 
 const ORDER_TYPE = {
     MARKET: "MARKET",
     LIMIT: "LIMIT",
     STOP: "STOP",
-    STOP_LIMIT: "STOP_LIMIT"
+    STOP_LIMIT: "STOP_LIMIT",
 };
 
 const ORDER_DURATION = {
     DAY: "DAY",
     GTC: "GTC",
-    IOC: "IOC"
+    IOC: "IOC",
 };
 
 module.exports = {
     ORDER_STATUS,
-    TRANSACTION_TYPE,
+    ACTION,
     ORDER_TYPE,
-    ORDER_DURATION
+    ORDER_DURATION,
 };

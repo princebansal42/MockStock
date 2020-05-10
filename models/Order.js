@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        transaction_type: {
+        action: {
             type: String,
             required: true,
         },
