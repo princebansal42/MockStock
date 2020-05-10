@@ -4,7 +4,8 @@ const app = express();
 // Connecting Database
 const connectDB = require("./config/db");
 connectDB();
-
+const getAssets = require("./utils/getAssets");
+getAssets();
 app.use(express.json({ extended: false }));
 
 // Routes Defined here

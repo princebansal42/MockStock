@@ -6,8 +6,8 @@ const assetSchema = new mongoose.Schema(
             type: String,
             required: true,
             unique: true,
-            set: (s) => s.toUpperCase(),
-            get: (s) => s.toUpperCase(),
+            // set: (s) => s.toUpperCase(),
+            // get: (s) => s.toUpperCase(),
         },
         tradable: {
             type: Boolean,
@@ -23,4 +23,5 @@ const assetSchema = new mongoose.Schema(
 );
 
 const Asset = mongoose.model("asset", assetSchema);
+
 module.exports = Asset;

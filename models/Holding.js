@@ -28,5 +28,5 @@ const holdingSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Holding = mongoose.model("holding", orderSchema);
+const Holding = mongoose.model("holding", holdingSchema);
 module.exports = Holding;

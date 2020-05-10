@@ -38,14 +38,15 @@ router.post("/", auth, async (req, res) => {
         } = req.body;
         let { order_type } = req.body;
         order_type = order_type.toUpperCase();
+
         let order = {
             client_id: req.user.id,
             asset_symbol,
             order_type: ORDER_TYPE[order_type],
-            action: Action[action.toUpperCase()],
+            action: ACTION[action.toUpperCase()],
             quantity,
         };
-
+        console.log(order);
         let margin = 1.1;
 
         // if (order_type === ORDER_TYPE.STOP) {
@@ -55,14 +56,21 @@ router.post("/", auth, async (req, res) => {
         //     order.stop_price = stop_price;
         //     order.limit_price = limit_price;
         // }
+
+        // // prettier-ignore
+
         const asset = await Asset.findOne({ symbol: asset_symbol });
+        console.log(asset);
+        if (!asset) return res.json(404).status({ msg: "Asset Not Found" });
         let limit = asset.ltp * margin;
+        console.log("Limit " + limit + "\nLimit Price" + limit_price);
+
         if (order_type === ORDER_TYPE.LIMIT) {
             order.limit_price = limit_price;
 
             if (limit_price > limit || limit_price < -1 * limit) {
                 return res
-                    .json(401)
+                    .status(401)
                     .json({ msg: "Given Limit Price not Allowed" });
             }
         }
@@ -71,6 +79,7 @@ router.post("/", auth, async (req, res) => {
 
         let order_cost = order_type === ORDER_TYPE.LIMIT ? limit_price : limit;
         order_cost *= quantity;
+        console.log("\nOrder Cost " + order_cost);
         let query;
         if (action === ACTION.BUY) {
             const user = await User.findById(req.user.id);
@@ -92,7 +101,7 @@ router.post("/", auth, async (req, res) => {
         if (action === ACTION.SELL) {
             const holding = await Holding.findOne({ client_id: req.user.id });
             // let avail_holdings = holding.quantity - holding.locked_qty;
-            if (holding.quantity < quantity) {
+            if (!holding || holding.quantity < quantity) {
                 order.status = ORDER_STATUS.REJECTED;
                 order = await order.save();
                 return res
